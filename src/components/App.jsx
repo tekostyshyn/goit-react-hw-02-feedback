@@ -23,10 +23,14 @@ export class App extends Component {
   leaveFeedback = evt => {
     this.setState(prevState => {
       if (evt.target.textContent === 'good') {
+        console.log(prevState.good);
+        console.log('good');
         return (prevState.good += 1);
       } else if (evt.target.textContent === 'neutral') {
+        console.log('neutral');
         return (prevState.neutral += 1);
       } else if (evt.target.textContent === 'bad') {
+        console.log('bad');
         return (prevState.bad += 1);
       }
     });
