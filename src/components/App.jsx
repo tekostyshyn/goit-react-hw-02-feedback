@@ -1,39 +1,58 @@
 import { Component } from 'react';
-import Title from './Title';
-import Buttons from './Buttons';
+import Section from './Section';
 import Statistics from './Statistics';
+import FeedbackOptions from './FeedbackOptions';
 
 export class App extends Component {
   state = {
     good: 5,
-    neutral: 10,
-    bad: 0,
+    neutral: 8,
+    bad: 3,
   };
 
   countTotalFeedback = () => {
     const { good, neutral, bad } = this.state;
     return good + neutral + bad;
-  }
+  };
 
   countPositiveFeedbackPercentage = () => {
     const { good } = this.state;
-    return ( Math.round(good / (this.countTotalFeedback()) * 100));
-  }
+    return Math.round((good / this.countTotalFeedback()) * 100);
+  };
+
+  leaveFeedback = evt => {
+    this.setState(prevState => {
+      if (evt.target.textContent === 'good') {
+        return (prevState.good += 1);
+      } else if (evt.target.textContent === 'neutral') {
+        return (prevState.neutral += 1);
+      } else if (evt.target.textContent === 'bad') {
+        return (prevState.bad += 1);
+      }
+    });
+  };
 
   render() {
     const { good, neutral, bad } = this.state;
+    const options = Object.keys(this.state);
+
     return (
       <div>
-        <Title text="Please leave feedback" />
-        <Buttons data={this.state}></Buttons>
-        <Title text="Statistics" />
-        <Statistics
-          good={good}
-          bad={bad}
-          neutral={neutral}
-          total={this.countTotalFeedback()}
-          positivePercentage={this.countPositiveFeedbackPercentage()}
-        />
+        <Section title="Please leave feedback">
+          <FeedbackOptions
+            options={options}
+            onLeaveFeedback={this.leaveFeedback}
+          ></FeedbackOptions>
+        </Section>
+        <Section title="Statistics">
+          <Statistics
+            good={good}
+            bad={bad}
+            neutral={neutral}
+            total={this.countTotalFeedback()}
+            positivePercentage={this.countPositiveFeedbackPercentage()}
+          />
+        </Section>
       </div>
     );
   }
