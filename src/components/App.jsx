@@ -21,17 +21,9 @@ export class App extends Component {
     return Math.round((good / this.countTotalFeedback()) * 100);
   };
 
-  leaveFeedback = evt => {
-    const clickedBtn = evt.target.textContent;
-
-    this.setState(prevState => {
-      if (clickedBtn === 'good') {
-        return { good: prevState.good + 1 };
-      } else if (clickedBtn === 'neutral') {
-        return { neutral: prevState.neutral + 1 };
-      } else if (clickedBtn === 'bad') {
-        return { bad: prevState.bad + 1 };
-      }
+  leaveFeedback = option => {
+    this.setState((prevState) => {
+      return {[option]: prevState[option] + 1}
     });
   };
 
